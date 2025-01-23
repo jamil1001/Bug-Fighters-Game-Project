@@ -111,7 +111,17 @@ int main()
 
 
 
+    Texture instruction_bgtex;
+    if (!instruction_bgtex.loadFromFile("Textures/instruction.png"))
+    {
+        std::cout << "Failed to load background texture!" << std::endl;
 
+    }
+    Sprite instruction_bg;
+    instruction_bg.setTexture(instruction_bgtex);
+    float instruction_xdir = window.getSize().x / instruction_bg.getGlobalBounds().width;
+    float instruction_ydir = window.getSize().y / instruction_bg.getGlobalBounds().height;
+    instruction_bg.setScale(Vector2f(instruction_xdir, instruction_ydir));
 
 
 
@@ -129,7 +139,7 @@ int main()
 
 
     Text text, new_game, resume_game, leaderboard, contributers, owners,
-        back, player_1_name, player_2_name, start, restart,character;
+        back, player_1_name, player_2_name, start, restart,character, instruction;
 
 
     int new_game_flag = 0;
@@ -164,6 +174,13 @@ int main()
     leaderboard.setString("Leaderboard");
     leaderboard.setPosition(300.f, 350.f);
 
+    int instruction_flag = 0;
+    instruction.setFont(font_comic);
+    instruction.setCharacterSize(20);
+    instruction.setFillColor(Color::White);
+    instruction.setString("Instruction");
+    instruction.setPosition(350.f, 400.f);
+
 
 
 
@@ -197,7 +214,7 @@ int main()
 
 
 
-
+    //collision sound
     SoundBuffer collision_tex;
     collision_tex.loadFromFile("collision.mp3");
     Sound collision;
@@ -205,11 +222,20 @@ int main()
 
 
 
+    //home sound 
+    SoundBuffer home_tex;
+    home_tex.loadFromFile("home.mp3");
+    Sound home_sound;
+    home_sound.setBuffer(home_tex);
+    home_sound.setVolume(15.f);
 
 
-
-
-
+    //winner sound 
+    SoundBuffer owner_sound_tex;
+    owner_sound_tex.loadFromFile("winer_bg_sound.mp3");
+    Sound owner_sound;
+    owner_sound.setBuffer(owner_sound_tex);
+    owner_sound.setVolume(13.f);
 
 
 
@@ -489,11 +515,10 @@ int main()
                                     //----------//
                                     //home page//
                                     //---------//
-
-
-        if (home_bg_Timer.getElapsedTime().asSeconds() >= 5.f && Home_bg_flag == 0)
+        
+        if (home_bg_Timer.getElapsedTime().asSeconds() >= 6.0f && Home_bg_flag == 0)
         {
-
+            home_sound.play();
             Home_bg_flag = 1;
             all_menu_flag = 1;
             menu_page_flag = 1;
@@ -506,12 +531,13 @@ int main()
 
         // new game button
 
-        if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0)
+        if (Mouse::isButtonPressed(Mouse::Left) && instruction_flag != 1 && owners_flag != 1 && Home_bg_flag != 0)
         {
 
 
             if (new_game.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
+                home_sound.stop();
                 menu_page_flag = 0;
                 //new_game_flag = 1;
                 character_flag = 1;
@@ -524,7 +550,7 @@ int main()
 
         // playground selection part 
 
-        if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
+        if (Mouse::isButtonPressed(Mouse::Left) && instruction_flag != 1 && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
         {
 
 
@@ -539,7 +565,7 @@ int main()
 
 
 
-        if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
+        if (Mouse::isButtonPressed(Mouse::Left) && instruction_flag != 1 && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
         {
 
 
@@ -559,10 +585,24 @@ int main()
         {
             if (owners.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
+                owner_sound.play();
+                home_sound.stop();
                 new_game_flag = 0;
                 all_menu_flag = 0;
                 menu_page_flag = 0;
                 owners_flag = 1;
+            }
+        }
+        if (Mouse::isButtonPressed(Mouse::Left) && new_game_flag != 1 && Home_bg_flag != 0)
+        {
+            if (instruction.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+            {
+                home_sound.stop();
+                new_game_flag = 0;
+                all_menu_flag = 0;
+                menu_page_flag = 0;
+                owners_flag = 0;
+                instruction_flag = 1;
             }
         }
 
@@ -575,7 +615,9 @@ int main()
         if (Mouse::isButtonPressed(Mouse::Left)) {
             if (back.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
-
+                owner_sound.stop();
+                home_sound.play();
+                instruction_flag = 0;
                 owners_flag = 0;
                 menu_page_flag = 1;
                 new_game_flag = 0;
@@ -600,10 +642,11 @@ int main()
         if (Mouse::isButtonPressed(Mouse::Left)) {
             if (restart.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
+                
                 home_bg_Timer.restart();
                 Home_bg_flag = 0;
-
-
+                owner_sound.stop();
+                instruction_flag = 0;
                 owners_flag = 0;
                 menu_page_flag = 0;
                 new_game_flag = 0;
@@ -1085,13 +1128,19 @@ int main()
             player_2_name.setPosition(player_2_jump.getPosition().x - 170.f, player_2_jump.getPosition().y + 95.f);
         }
 
+
+
+        // winner name set
+
         if (player_1_hp <= 0)
         {
-            win.setString(" Winner Player 1");
+            win.setString(" Winner Player 2");
+            
         }
         else if (player_2_hp <= 0)
         {
-            win.setString(" Winner Player 2");
+            win.setString(" Winner Player 1");
+           
         }
 
 
@@ -1229,9 +1278,15 @@ int main()
             window.draw(back);
             window.draw(restart);
         }
+        else if (instruction_flag == 1)
+        {
 
+            window.draw(instruction_bg);
+            window.draw(back);
+            window.draw(restart);
+        }
 
-        std::cout << new_game_flag;
+        
 
 
 
@@ -1302,6 +1357,7 @@ int main()
             }
             if (player_2_hp <= 0 || player_1_hp <= 0)
             {
+                
                 window.draw(win);
             }
 
@@ -1313,6 +1369,7 @@ int main()
 
         if (all_menu_flag == 1)
         {
+            window.draw(instruction);
             window.draw(new_game);
             window.draw(resume_game);
             window.draw(owners);
@@ -1336,6 +1393,6 @@ int main()
         window.display();
     }
 
-    //hello
+
     return 0;
 }

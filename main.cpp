@@ -24,13 +24,17 @@ int main()
     window.setFramerateLimit(60);
 
 
-    Vertex line[] = {
-     Vertex(Vector2f(0.f, 380.f)),
-     Vertex(Vector2f(800.f, 380.f))
+    Vertex line[] = 
+    {
+         Vertex(Vector2f(0.f, 380.f)),
+         Vertex(Vector2f(800.f, 380.f))
     };
 
+                    //----------------//
+                    //background image//
+                    //---------------//
 
-    //background image//
+
 
     int Home_bg_flag = 0;
     Clock home_bg_Timer;
@@ -54,7 +58,7 @@ int main()
 
     int menu_page_flag = 0;
     Texture menu_bgtex;
-    if (!menu_bgtex.loadFromFile("Textures/demo1.jpg"))
+    if (!menu_bgtex.loadFromFile("Textures/menu_bg.jpg"))
     {
         std::cout << "Failed to load background texture!" << std::endl;
 
@@ -66,7 +70,9 @@ int main()
     menu_bg.setScale(Vector2f(menu_xdir, menu_ydir));
 
 
-    //bg_1
+
+    //game_bg_1//
+
     int game_bg_flag = 0;
     Texture game_bg1tex;
     game_bg1tex.loadFromFile("Textures/bg1.jpg");
@@ -76,7 +82,7 @@ int main()
     float game_ydir = window.getSize().y / game_bg.getGlobalBounds().height;
     game_bg.setScale(Vector2f(game_xdir, game_ydir));
 
-    //bg_2
+    //game_bg_2//
 
     Texture game_bg2tex;
     game_bg2tex.loadFromFile("Textures/bg2.jpg");
@@ -88,9 +94,11 @@ int main()
 
 
 
+
+
     int owner_page_flag = 0;
     Texture owner_bgtex;
-    if (!owner_bgtex.loadFromFile("Textures/owner.png"))
+    if (!owner_bgtex.loadFromFile("Textures/owner1.png"))
     {
         std::cout << "Failed to load background texture!" << std::endl;
 
@@ -113,20 +121,21 @@ int main()
     Font font;
     font.loadFromFile("fonts/ARIALBD.TTF");
     Font font_comic;
-    font_comic.loadFromFile("fonts/Fighting Spirit 2.otf");
+    font_comic.loadFromFile("fonts/VerminVibesV-Zlg3.ttf");
     Font font_comic_2;
     font_comic_2.loadFromFile("fonts/FunnyKid.ttf");
 
 
 
 
-    Text text, new_game, resume_game, leaderboard, contributers, owners, back, player_1_name, player_2_name, start, restart, character;
+    Text text, new_game, resume_game, leaderboard, contributers, owners,
+        back, player_1_name, player_2_name, start, restart,character;
 
 
     int new_game_flag = 0;
     new_game.setFont(font_comic);
     new_game.setCharacterSize(20);
-    new_game.setFillColor(Color::Red);
+    new_game.setFillColor(Color::White);
     new_game.setString("New Game");
     new_game.setPosition(150.f, 200.f);
 
@@ -135,7 +144,7 @@ int main()
     int resume_game_flag = 0;
     resume_game.setFont(font_comic);
     resume_game.setCharacterSize(20);
-    resume_game.setFillColor(Color::Red);
+    resume_game.setFillColor(Color::White);
     resume_game.setString("Resume Game");
     resume_game.setPosition(200.f, 250.f);
 
@@ -143,47 +152,47 @@ int main()
     int owners_flag = 0;
     owners.setFont(font_comic);
     owners.setCharacterSize(20);
-    owners.setFillColor(Color::Red);
-    owners.setString("Developers");
+    owners.setFillColor(Color::White);
+    owners.setString("Developers");  
     owners.setPosition(250.f, 300.f);
 
 
     int leaderboard_flag = 0;
     leaderboard.setFont(font_comic);
     leaderboard.setCharacterSize(20);
-    leaderboard.setFillColor(Color::Red);
+    leaderboard.setFillColor(Color::White);
     leaderboard.setString("Leaderboard");
     leaderboard.setPosition(300.f, 350.f);
 
 
 
 
-    int character_flag = 0, player_1_char_flag = 0, player_2_char_flag = 0;
-    character.setFont(font_comic_2);
-    character.setCharacterSize(30);
-    character.setFillColor(Color(87, 73, 100));
-    character.setString("Choose PlayGround");
-    character.setPosition(250.f, 80.f);
+    int character_flag = 0,player_1_char_flag = 0, player_2_char_flag = 0;
+    character.setFont(font_comic);
+    character.setCharacterSize(25);
+    character.setFillColor(Color::White);
+    character.setString("Choose  PlayGround");
+    character.setPosition(230.f, 80.f);
 
 
 
 
-
+    
 
 
     int back_flag = 0;
     back.setFont(font_comic);
     back.setCharacterSize(20);
-    back.setFillColor(Color::Red);
+    back.setFillColor(Color::White);
     back.setString("Back");
     back.setPosition(50.f, 550.f);
 
     int restart_flag = 0;
     restart.setFont(font_comic);
     restart.setCharacterSize(20);
-    restart.setFillColor(Color::Red);
+    restart.setFillColor(Color::White);
     restart.setString("Restart");
-    restart.setPosition(685.f, 550.f);
+    restart.setPosition(665.f, 550.f);
 
 
 
@@ -244,8 +253,8 @@ int main()
     int m = 0;
     float scal1 = 1.5f, scal2 = 1.5f;
     int  player_2_derection = 2;
-
-
+    
+    
 
 
 
@@ -312,7 +321,7 @@ int main()
 
 
 
-
+    
 
 
 
@@ -347,13 +356,13 @@ int main()
 
     //player_2--RUNNING--Sprite//
 
-
+    
 
     Clock player_2_timer_run;
 
     Sprite player_2_run;
     Texture player_2_run_tex;
-
+   
     player_2_run.setTexture(player_2_run_tex);
     IntRect Currentframe_player_2_run = IntRect(0, 0, 200.f, 200.f);
     player_2_run.setTextureRect(Currentframe_player_2_run);
@@ -382,7 +391,7 @@ int main()
 
     Sprite player_2_jump;
     Texture player_2_jump_tex;
-
+    
     player_2_jump.setTexture(player_2_jump_tex);
     IntRect Currentframe_player_2_jump = IntRect(0, 0, 200.f, 200.f);
     player_2_jump.setTextureRect(Currentframe_player_2_jump);
@@ -398,7 +407,7 @@ int main()
 
     Sprite player_2_attack_1;
     Texture player_2_attack_tex;
-
+    
     player_2_attack_1.setTexture(player_2_attack_tex);
     IntRect Currentframe_player_2_attack_1 = IntRect(0, 0, 200.f, 200.f);
     player_2_attack_1.setPosition(player_2_run.getPosition());
@@ -415,9 +424,9 @@ int main()
 
     Sprite player_2_idle;
     Texture player_2_idle_tex;
-
+    
     player_2_idle.setTexture(player_2_idle_tex);
-    IntRect Currentframe_player_2_idle = IntRect(0, 0, 200.f, 200.f);
+    IntRect Currentframe_player_2_idle = IntRect(0, 0, 200.f,200.f);
     player_2_idle.setTextureRect(Currentframe_player_2_idle);
     player_2_idle.setPosition(player_2_run.getPosition().x, player_2_run.getPosition().y);
     player_2_idle.setScale(player_2_run.getScale());
@@ -472,14 +481,14 @@ int main()
     player_1_name.setFont(font);
     player_1_name.setCharacterSize(13);
     player_1_name.setFillColor(Color::White);
-    player_1_name.setString("[ Jamil ]");
+    player_1_name.setString("[ Player 1 ]");
 
     /*Player 2 name */
 
     player_2_name.setFont(font);
     player_2_name.setCharacterSize(13);
     player_2_name.setFillColor(Color::White);
-    player_2_name.setString("[ Alim ]");
+    player_2_name.setString("[ player 2 ]");
 
 
     Sprite winner_bg;
@@ -549,7 +558,7 @@ int main()
 
             {
                 player_1_char_flag = 1;
-
+                
             }
         }
         if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
@@ -584,7 +593,7 @@ int main()
                 menu_page_flag = 1;
                 new_game_flag = 0;
                 all_menu_flag = 1;
-
+                character_flag = 0;
 
 
                 //resetting the game elements
@@ -663,25 +672,7 @@ int main()
             player_1_run.move(5.f, 0);
             player_1_idle.move(5.f, 0);
             player_1_derection = 2;
-        }
-
-
-
-        if (m == 2)
-        {
-            if (player_1_timer_run.getElapsedTime().asSeconds() >= 0.01f)
-            {
-                Currentframe_player_1_run.left += 200;
-                if (Currentframe_player_1_run.left >= 1600.f)
-                {
-                    Currentframe_player_1_run.left = 0;
-                    m = 0;
-                }
-                player_1_timer_run.restart();
-                player_1_run.setScale(scal1, scal2);
-                player_1_run.setTextureRect(Currentframe_player_1_run);
-
-            }
+            player_1_run.setScale(scal1, scal2);
             player_1_run.setOrigin(0.f, 0.f);
         }
 
@@ -695,12 +686,16 @@ int main()
             player_1_run.move(-5.f, 0);
             player_1_idle.move(-5.f, 0);
             player_1_derection = 4;
+            player_1_run.setScale(-scal1, scal2);
+            player_1_run.setOrigin(player_1_run.getGlobalBounds().width / scal2, 0.f);
         }
 
 
-        if (m == 4)
-        {
 
+        // player 1 run animation 
+
+        if (m == 2 || m == 4)
+        {
             if (player_1_timer_run.getElapsedTime().asSeconds() >= 0.01f)
             {
                 Currentframe_player_1_run.left += 200;
@@ -710,19 +705,19 @@ int main()
                     m = 0;
                 }
                 player_1_timer_run.restart();
-
+                
                 player_1_run.setTextureRect(Currentframe_player_1_run);
 
-
-
             }
-            player_1_run.setScale(-scal1, scal2);
-            player_1_run.setOrigin(player_1_run.getGlobalBounds().width / scal2, 0.f);
-
+            
         }
 
 
-        //player--2 jumping position update  ---------> m = 3
+
+        
+
+
+        //player--1 jumping position update  ---------> m = 3
 
 
 
@@ -807,13 +802,13 @@ int main()
 
 
 
-        /*--------------*/
-        /*....UPDATE...../
-        /................/
-        /... PLAYER 2 .../
-        /................/
-        /...............*/
-        /*--------------*/
+                            /*--------------*/
+                            /*....UPDATE...../
+                            /................/
+                            /... PLAYER 2 .../
+                            /................/
+                            /...............*/
+                            /*--------------*/
 
 
 
@@ -850,35 +845,12 @@ int main()
             player_2_run.move(5.f, 0);
             player_2_idle.move(5.f, 0);
             player_2_derection = 4;
-        }
-
-
-        if (p2 == 2)
-        {
-            if (player_2_timer_run.getElapsedTime().asSeconds() >= 0.01)
-            {
-                Currentframe_player_2_run.left += 200.f;
-                if (Currentframe_player_2_run.left >= 1600.f)
-                {
-                    Currentframe_player_2_run.left = 0;
-                    p2 = 0;
-                }
-                player_2_timer_run.restart();
-
-                player_2_run.setTextureRect(Currentframe_player_2_run);
-
-            }
             player_2_run.setScale(-scal1_2, scal2_2);
             player_2_run.setOrigin(player_2_run.getGlobalBounds().width / scal2_2, 0.f);
-
         }
 
-
-
-
-
-
         //player--2 running [----LEFT------] position update  ---------> p2 = 4
+
 
 
         if (Keyboard::isKeyPressed(Keyboard::Left) && collision_ditect_2.getPosition().x >= 0) {
@@ -886,10 +858,15 @@ int main()
             player_2_run.move(-5.f, 0);
             player_2_idle.move(-5.f, 0);
             player_2_derection = 2;
+            player_2_run.setScale(scal1_2, scal2_2);
+            player_2_run.setOrigin(0.f, 0.f);
         }
 
 
-        if (p2 == 4)
+
+
+
+        if (p2 == 2 || p2 == 4)
         {
             if (player_2_timer_run.getElapsedTime().asSeconds() >= 0.01)
             {
@@ -904,11 +881,17 @@ int main()
                 player_2_run.setTextureRect(Currentframe_player_2_run);
 
             }
-            player_2_run.setScale(scal1_2, scal2_2);
-            player_2_run.setOrigin(0.f, 0.f);
+            
+            
+
         }
 
-        //player--2 jumping position update  ---------> p2 = 3
+
+
+
+
+
+
 
 
         if (Keyboard::isKeyPressed(Keyboard::Up) && jump_flag_2 == 0)
@@ -999,7 +982,7 @@ int main()
             if (player_2_hp > 0) {
                 collision.play();
             }
-
+            
             player_2_hp -= 0.5f;
         }
 
@@ -1106,11 +1089,11 @@ int main()
 
         if (player_1_hp <= 0)
         {
-            win.setString(" Winner Alim");
+            win.setString(" Winner Player 1");
         }
         else if (player_2_hp <= 0)
         {
-            win.setString(" Winner Jamil");
+            win.setString(" Winner Player 2");
         }
 
 
@@ -1137,13 +1120,13 @@ int main()
         hp_2.setSize(Vector2f(player_2_hp, 20.f));
 
 
-        /*---------------------------*/
-       /*....Winner declaretion....../
-      /............................./
-     /..............KING.........../
-    /............................./
-   /............................*/
-   /*---------------------------*/
+                                /*---------------------------*/
+                               /*....Winner declaretion....../
+                              /............................./
+                             /..............KING.........../
+                            /............................./
+                           /............................*/
+                          /*---------------------------*/
 
 
 
@@ -1162,6 +1145,10 @@ int main()
             }
 
         }
+
+
+                         //------------------//
+                        // playground choose//
 
         if (player_1_char_flag == 1)
         {
@@ -1201,8 +1188,8 @@ int main()
             character_flag = 0;
             new_game_flag = 1;
         }
-
-
+        
+        
 
 
 
@@ -1232,7 +1219,7 @@ int main()
             {
                 window.draw(game_bg2);
             }
-
+            
             window.draw(back);
             window.draw(restart);
         }
@@ -1331,10 +1318,11 @@ int main()
             window.draw(resume_game);
             window.draw(owners);
             window.draw(leaderboard);
-
+            
         }
         if (character_flag == 1)
         {
+            window.draw(back);
             window.draw(ninja);
             window.draw(prince);
             window.draw(character);
@@ -1348,6 +1336,7 @@ int main()
 
         window.display();
     }
+
 
     return 0;
 }

@@ -230,34 +230,30 @@ int main()
 
 
 
-     //-----------------//
-    //-selection pics--//
-   //-----------------//
+     //----------------------------//
+    //-selection playground pics--//
+   //----------------------------//
 
 
-    Sprite ninja;
-    Texture ninja_tex;
-    ninja_tex.loadFromFile("Textures/Asset 54.png");
-    ninja.setTexture(ninja_tex);
-    ninja.setPosition(280.f, 150.f);
+    Sprite player_ground_1;
+    Texture player_ground_1_tex;
+    player_ground_1_tex.loadFromFile("Textures/Asset 54.png");
+    player_ground_1.setTexture(player_ground_1_tex);
+    player_ground_1.setPosition(280.f, 150.f);
 
-    Sprite prince;
-    Texture prince_tex;
-    prince_tex.loadFromFile("Textures/Asset 53.png");
-    prince.setTexture(prince_tex);
-    prince.setPosition(280.f, 350.f);
+    Sprite player_ground_2;
+    Texture player_ground_2_tex;
+    player_ground_2_tex.loadFromFile("Textures/Asset 53.png");
+    player_ground_2.setTexture(player_ground_2_tex);
+    player_ground_2.setPosition(280.f, 350.f);
 
 
 
 
     int m = 0;
     float scal1 = 1.5f, scal2 = 1.5f;
-    int  player_2_derection = 2;
+    int  player_1_derection = 2;
     
-    
-
-
-
 
     //player_1--RUNNING--Sprite//
     Clock player_1_timer_run;
@@ -277,7 +273,6 @@ int main()
     float gravity = 0.5f;
 
     Clock player_1_timer_jump;
-
     Sprite player_1_jump;
     Texture player_1_jump_tex;
     player_1_jump.setTexture(player_1_jump_tex);
@@ -287,15 +282,8 @@ int main()
 
 
 
-
-
-
-
-
-
     //player_1--ATTACK_1--Sprite//
     Clock Timer_attack_player_1;
-
     Sprite player_1_attack_1;
     Texture player_1_tex;
     player_1_attack_1.setTexture(player_1_tex);
@@ -306,10 +294,8 @@ int main()
 
 
 
-
     //player_1--IDLE--Sprite//
     Clock player_1_timer_idle;
-
     Sprite player_1_idle;
     Texture player_1_idle_tex;
     player_1_idle.setTexture(player_1_idle_tex);
@@ -319,13 +305,7 @@ int main()
     player_1_idle.setScale(player_1_run.getScale());
 
 
-
-
-    
-
-
-
-
+    //collision detector for player 1
     CircleShape collision_ditect_1;
     collision_ditect_1.setRadius(5.f);
     /*collision_ditect_1.setFillColor(sf::Color(255, 255, 255, 10));*/
@@ -351,34 +331,19 @@ int main()
 
     int p2 = 0;
     float scal1_2 = -1.5f, scal2_2 = 1.5f;
-    int player_1_derection = 2;
+    int player_2_derection = 2;
 
 
     //player_2--RUNNING--Sprite//
 
-    
-
     Clock player_2_timer_run;
-
     Sprite player_2_run;
     Texture player_2_run_tex;
-   
     player_2_run.setTexture(player_2_run_tex);
     IntRect Currentframe_player_2_run = IntRect(0, 0, 200.f, 200.f);
     player_2_run.setTextureRect(Currentframe_player_2_run);
     player_2_run.setScale(scal1_2, scal2_2);
     player_2_run.setPosition(700, 186);
-
-
-
-
-
-
-
-
-
-
-
 
 
     //player_2--Jumping--Sprite//
@@ -388,10 +353,8 @@ int main()
     float gravity_2 = 0.5f;
 
     Clock player_2_timer_jump;
-
     Sprite player_2_jump;
     Texture player_2_jump_tex;
-    
     player_2_jump.setTexture(player_2_jump_tex);
     IntRect Currentframe_player_2_jump = IntRect(0, 0, 200.f, 200.f);
     player_2_jump.setTextureRect(Currentframe_player_2_jump);
@@ -399,15 +362,11 @@ int main()
 
 
 
-
-
-
     //player_2--ATTACK_1--Sprite//
-    Clock Timer_attack_player_2;
 
+    Clock Timer_attack_player_2;
     Sprite player_2_attack_1;
     Texture player_2_attack_tex;
-    
     player_2_attack_1.setTexture(player_2_attack_tex);
     IntRect Currentframe_player_2_attack_1 = IntRect(0, 0, 200.f, 200.f);
     player_2_attack_1.setPosition(player_2_run.getPosition());
@@ -415,22 +374,19 @@ int main()
     player_2_attack_1.setScale(player_2_run.getScale());
 
 
-
-
     //player_2--IDLE--Sprite//
 
-
     Clock player_2_timer_idle;
-
     Sprite player_2_idle;
     Texture player_2_idle_tex;
-    
     player_2_idle.setTexture(player_2_idle_tex);
     IntRect Currentframe_player_2_idle = IntRect(0, 0, 200.f,200.f);
     player_2_idle.setTextureRect(Currentframe_player_2_idle);
     player_2_idle.setPosition(player_2_run.getPosition().x, player_2_run.getPosition().y);
     player_2_idle.setScale(player_2_run.getScale());
 
+
+    //colission detector for player 2
 
     CircleShape collision_ditect_2;
     collision_ditect_2.setRadius(5.f);
@@ -439,6 +395,8 @@ int main()
 
 
 
+
+    // players hp counters
 
 
     float player_1_hp = 150.f, player_2_hp = 150.f;
@@ -457,7 +415,7 @@ int main()
 
 
 
-
+    //king who will declare the winner
 
     Clock Timer_king_idle;
 
@@ -476,6 +434,12 @@ int main()
     king_platform.setPosition(king_idle.getPosition().x + 150.f, king_idle.getPosition().y + 250);
 
 
+
+
+    //--------------//
+    // players name //
+    //--------------//
+
     /*Player 1 name */
 
     player_1_name.setFont(font);
@@ -489,6 +453,7 @@ int main()
     player_2_name.setCharacterSize(13);
     player_2_name.setFillColor(Color::White);
     player_2_name.setString("[ player 2 ]");
+
 
 
     Sprite winner_bg;
@@ -521,9 +486,12 @@ int main()
         }
 
 
-        //  menu page
+                                    //----------//
+                                    //home page//
+                                    //---------//
 
-        if (home_bg_Timer.getElapsedTime().asSeconds() >= 2.f && Home_bg_flag == 0)
+
+        if (home_bg_Timer.getElapsedTime().asSeconds() >= 5.f && Home_bg_flag == 0)
         {
 
             Home_bg_flag = 1;
@@ -532,9 +500,11 @@ int main()
 
         }
 
+                                    //----------//
+                                    //menu page//
+                                    //---------//
 
-        //  diff menu 
-
+        // new game button
 
         if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0)
         {
@@ -550,28 +520,39 @@ int main()
             }
 
         }
+
+
+        // playground selection part 
+
         if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
         {
 
 
-            if (ninja.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+            if (player_ground_1.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
 
             {
                 player_1_char_flag = 1;
                 
             }
         }
+
+
+
+
         if (Mouse::isButtonPressed(Mouse::Left) && owners_flag != 1 && Home_bg_flag != 0 && character_flag == 1)
         {
 
 
-            if (prince.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+            if (player_ground_2.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
 
             {
                 player_1_char_flag = 2;
 
             }
         }
+
+
+        // developer button part
 
 
         if (Mouse::isButtonPressed(Mouse::Left) && new_game_flag != 1 && Home_bg_flag != 0)
@@ -584,6 +565,12 @@ int main()
                 owners_flag = 1;
             }
         }
+
+
+
+        //////////////
+        // back button
+        /////////////
 
         if (Mouse::isButtonPressed(Mouse::Left)) {
             if (back.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
@@ -605,6 +592,11 @@ int main()
             }
 
         }
+
+        //////////////
+       // restart button
+      /////////////
+
         if (Mouse::isButtonPressed(Mouse::Left)) {
             if (restart.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
@@ -892,7 +884,7 @@ int main()
 
 
 
-
+        //player 2 jump part
 
         if (Keyboard::isKeyPressed(Keyboard::Up) && jump_flag_2 == 0)
         {
@@ -1069,6 +1061,12 @@ int main()
         player_1_attack_1.setPosition(player_1_run.getPosition());
 
 
+
+
+        //player names positioning acording to the player movement
+
+
+
         if (m == 0 || m == 2 || m == 4)
         {
             player_1_name.setPosition(player_1_run.getPosition().x + 130.f, player_1_run.getPosition().y + 85.f);
@@ -1149,6 +1147,7 @@ int main()
 
                          //------------------//
                         // playground choose//
+                       //------------------// 
 
         if (player_1_char_flag == 1)
         {
@@ -1323,8 +1322,8 @@ int main()
         if (character_flag == 1)
         {
             window.draw(back);
-            window.draw(ninja);
-            window.draw(prince);
+            window.draw(player_ground_1);
+            window.draw(player_ground_2);
             window.draw(character);
         }
 
@@ -1337,6 +1336,6 @@ int main()
         window.display();
     }
 
-
+    //hello
     return 0;
 }

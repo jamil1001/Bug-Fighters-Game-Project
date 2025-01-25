@@ -507,6 +507,11 @@ int main()
                 window.close();
         }
 
+        if (Keyboard::isKeyPressed(Keyboard::Escape))
+        {
+            return 0;
+        }
+
 
         //----------//
         //home page//

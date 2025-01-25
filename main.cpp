@@ -2,6 +2,7 @@
 #include<ctime>
 #include<iostream>
 #include<time.h>
+#include<fstream>
 
 //SEML
 
@@ -18,21 +19,27 @@ int main()
 {
 
 
+    int playgrnd_resume_flag = 0;
+
+    float hp1, hp2;
+
+
+
 
     int count = 0;
     RenderWindow window(VideoMode(800, 600), "Game!");
     window.setFramerateLimit(60);
 
 
-    Vertex line[] = 
+    Vertex line[] =
     {
          Vertex(Vector2f(0.f, 380.f)),
          Vertex(Vector2f(800.f, 380.f))
     };
 
-                    //----------------//
-                    //background image//
-                    //---------------//
+    //----------------//
+    //background image//
+    //---------------//
 
 
 
@@ -112,11 +119,7 @@ int main()
 
 
     Texture instruction_bgtex;
-    if (!instruction_bgtex.loadFromFile("Textures/instruction.png"))
-    {
-        std::cout << "Failed to load background texture!" << std::endl;
-
-    }
+    instruction_bgtex.loadFromFile("Textures/instruction.png");
     Sprite instruction_bg;
     instruction_bg.setTexture(instruction_bgtex);
     float instruction_xdir = window.getSize().x / instruction_bg.getGlobalBounds().width;
@@ -138,8 +141,8 @@ int main()
 
 
 
-    Text text, new_game, resume_game, leaderboard, contributers, owners,
-        back, player_1_name, player_2_name, start, restart,character, instruction;
+    Text text, new_game, resume_game, save_gameplay, contributers, owners,
+        back, player_1_name, player_2_name, start, restart, character, instruction;
 
 
     int new_game_flag = 0;
@@ -156,35 +159,30 @@ int main()
     resume_game.setCharacterSize(20);
     resume_game.setFillColor(Color::White);
     resume_game.setString("Resume Game");
-    resume_game.setPosition(200.f, 250.f);
+    resume_game.setPosition(150.f, 250.f);
 
 
     int owners_flag = 0;
     owners.setFont(font_comic);
     owners.setCharacterSize(20);
     owners.setFillColor(Color::White);
-    owners.setString("Developers");  
-    owners.setPosition(250.f, 300.f);
+    owners.setString("Developers");
+    owners.setPosition(150.f, 300.f);
 
 
-    int leaderboard_flag = 0;
-    leaderboard.setFont(font_comic);
-    leaderboard.setCharacterSize(20);
-    leaderboard.setFillColor(Color::White);
-    leaderboard.setString("Leaderboard");
-    leaderboard.setPosition(300.f, 350.f);
+
 
     int instruction_flag = 0;
     instruction.setFont(font_comic);
     instruction.setCharacterSize(20);
     instruction.setFillColor(Color::White);
     instruction.setString("Instruction");
-    instruction.setPosition(350.f, 400.f);
+    instruction.setPosition(150.f, 350.f);
 
 
 
 
-    int character_flag = 0,player_1_char_flag = 0, player_2_char_flag = 0;
+    int character_flag = 0, player_1_char_flag = 0, player_2_char_flag = 0;
     character.setFont(font_comic);
     character.setCharacterSize(25);
     character.setFillColor(Color::White);
@@ -192,9 +190,6 @@ int main()
     character.setPosition(230.f, 80.f);
 
 
-
-
-    
 
 
     int back_flag = 0;
@@ -211,6 +206,12 @@ int main()
     restart.setString("Restart");
     restart.setPosition(665.f, 550.f);
 
+    int save_gameplay_flag = 0;
+    save_gameplay.setFont(font_comic);
+    save_gameplay.setCharacterSize(20);
+    save_gameplay.setFillColor(Color::White);
+    save_gameplay.setString("Save");
+    save_gameplay.setPosition(665.f, 550.f);
 
 
 
@@ -230,12 +231,7 @@ int main()
     home_sound.setVolume(15.f);
 
 
-    //winner sound 
-    SoundBuffer owner_sound_tex;
-    owner_sound_tex.loadFromFile("winer_bg_sound.mp3");
-    Sound owner_sound;
-    owner_sound.setBuffer(owner_sound_tex);
-    owner_sound.setVolume(13.f);
+
 
 
 
@@ -279,7 +275,7 @@ int main()
     int m = 0;
     float scal1 = 1.5f, scal2 = 1.5f;
     int  player_1_derection = 2;
-    
+
 
     //player_1--RUNNING--Sprite//
     Clock player_1_timer_run;
@@ -406,7 +402,7 @@ int main()
     Sprite player_2_idle;
     Texture player_2_idle_tex;
     player_2_idle.setTexture(player_2_idle_tex);
-    IntRect Currentframe_player_2_idle = IntRect(0, 0, 200.f,200.f);
+    IntRect Currentframe_player_2_idle = IntRect(0, 0, 200.f, 200.f);
     player_2_idle.setTextureRect(Currentframe_player_2_idle);
     player_2_idle.setPosition(player_2_run.getPosition().x, player_2_run.getPosition().y);
     player_2_idle.setScale(player_2_run.getScale());
@@ -512,10 +508,10 @@ int main()
         }
 
 
-                                    //----------//
-                                    //home page//
-                                    //---------//
-        
+        //----------//
+        //home page//
+        //---------//
+
         if (home_bg_Timer.getElapsedTime().asSeconds() >= 6.0f && Home_bg_flag == 0)
         {
             home_sound.play();
@@ -525,11 +521,11 @@ int main()
 
         }
 
-                                    //----------//
-                                    //menu page//
-                                    //---------//
+        //----------//
+        //menu page//
+        //---------//
 
-        // new game button
+// new game button
 
         if (Mouse::isButtonPressed(Mouse::Left) && instruction_flag != 1 && owners_flag != 1 && Home_bg_flag != 0)
         {
@@ -558,7 +554,8 @@ int main()
 
             {
                 player_1_char_flag = 1;
-                
+
+
             }
         }
 
@@ -577,6 +574,46 @@ int main()
             }
         }
 
+        //-------------------
+        // resume game function 
+        //----------------------
+
+
+        if (Mouse::isButtonPressed(Mouse::Left) && instruction_flag != 1 && owners_flag != 1 && Home_bg_flag != 0)
+        {
+
+
+            if (resume_game.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+
+            {
+                std::ifstream in("resume.txt");
+                in >> hp1;
+                in >> hp2;
+                in >> playgrnd_resume_flag;
+                player_1_hp = hp1;
+                player_2_hp = hp2;
+                player_1_char_flag = playgrnd_resume_flag;
+                home_sound.stop();
+                menu_page_flag = 0;
+                all_menu_flag = 0;
+
+            }
+        }
+
+        //-------------------
+       // save button ---------- 
+      //----------------------
+
+        if (Mouse::isButtonPressed(Mouse::Left) && new_game_flag == 1) {
+            if (save_gameplay.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+            {
+                std::ofstream out("resume.txt");
+                out << player_1_hp << "\n" << player_2_hp << "\n" << playgrnd_resume_flag << "\n";
+
+            }
+        }
+
+
 
         // developer button part
 
@@ -585,7 +622,7 @@ int main()
         {
             if (owners.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
-                owner_sound.play();
+                //owner_sound.play();
                 home_sound.stop();
                 new_game_flag = 0;
                 all_menu_flag = 0;
@@ -608,6 +645,11 @@ int main()
 
 
 
+
+
+
+
+
         //////////////
         // back button
         /////////////
@@ -615,7 +657,8 @@ int main()
         if (Mouse::isButtonPressed(Mouse::Left)) {
             if (back.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
-                owner_sound.stop();
+
+                //owner_sound.stop();
                 home_sound.play();
                 instruction_flag = 0;
                 owners_flag = 0;
@@ -639,13 +682,13 @@ int main()
        // restart button
       /////////////
 
-        if (Mouse::isButtonPressed(Mouse::Left)) {
+        if (Mouse::isButtonPressed(Mouse::Left) && new_game_flag != 1 && Home_bg_flag != 0) {
             if (restart.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
-                
+
                 home_bg_Timer.restart();
                 Home_bg_flag = 0;
-                owner_sound.stop();
+                //owner_sound.stop();
                 instruction_flag = 0;
                 owners_flag = 0;
                 menu_page_flag = 0;
@@ -740,16 +783,16 @@ int main()
                     m = 0;
                 }
                 player_1_timer_run.restart();
-                
+
                 player_1_run.setTextureRect(Currentframe_player_1_run);
 
             }
-            
+
         }
 
 
 
-        
+
 
 
         //player--1 jumping position update  ---------> m = 3
@@ -837,13 +880,13 @@ int main()
 
 
 
-                            /*--------------*/
-                            /*....UPDATE...../
-                            /................/
-                            /... PLAYER 2 .../
-                            /................/
-                            /...............*/
-                            /*--------------*/
+        /*--------------*/
+        /*....UPDATE...../
+        /................/
+        /... PLAYER 2 .../
+        /................/
+        /...............*/
+        /*--------------*/
 
 
 
@@ -916,8 +959,8 @@ int main()
                 player_2_run.setTextureRect(Currentframe_player_2_run);
 
             }
-            
-            
+
+
 
         }
 
@@ -1017,7 +1060,7 @@ int main()
             if (player_2_hp > 0) {
                 collision.play();
             }
-            
+
             player_2_hp -= 0.5f;
         }
 
@@ -1135,12 +1178,12 @@ int main()
         if (player_1_hp <= 0)
         {
             win.setString(" Winner Player 2");
-            
+
         }
         else if (player_2_hp <= 0)
         {
             win.setString(" Winner Player 1");
-           
+
         }
 
 
@@ -1167,13 +1210,13 @@ int main()
         hp_2.setSize(Vector2f(player_2_hp, 20.f));
 
 
-                                /*---------------------------*/
-                               /*....Winner declaretion....../
-                              /............................./
-                             /..............KING.........../
-                            /............................./
-                           /............................*/
-                          /*---------------------------*/
+        /*---------------------------*/
+       /*....Winner declaretion....../
+      /............................./
+     /..............KING.........../
+    /............................./
+   /............................*/
+   /*---------------------------*/
 
 
 
@@ -1194,9 +1237,9 @@ int main()
         }
 
 
-                         //------------------//
-                        // playground choose//
-                       //------------------// 
+        //------------------//
+       // playground choose//
+      //------------------// 
 
         if (player_1_char_flag == 1)
         {
@@ -1216,6 +1259,12 @@ int main()
             player_1_char_flag = 0;
             character_flag = 0;
             new_game_flag = 1;
+            playgrnd_resume_flag = 1;
+
+            player_1_run.setPosition(40, 195);
+            player_2_run.setPosition(700, 186);
+            /* player_1_hp = 150.f;
+             player_2_hp = 150.f;*/
 
         }
         else if (player_1_char_flag == 2)
@@ -1235,9 +1284,15 @@ int main()
             player_1_char_flag = 0;
             character_flag = 0;
             new_game_flag = 1;
+            playgrnd_resume_flag = 2;
+
+            player_1_run.setPosition(40, 195);
+            player_2_run.setPosition(700, 186);
+            /*player_1_hp = 150.f;
+            player_2_hp = 150.f;*/
         }
-        
-        
+
+
 
 
 
@@ -1267,9 +1322,8 @@ int main()
             {
                 window.draw(game_bg2);
             }
-            
+            window.draw(save_gameplay);
             window.draw(back);
-            window.draw(restart);
         }
         else if (owners_flag == 1)
         {
@@ -1286,7 +1340,7 @@ int main()
             window.draw(restart);
         }
 
-        
+
 
 
 
@@ -1357,7 +1411,7 @@ int main()
             }
             if (player_2_hp <= 0 || player_1_hp <= 0)
             {
-                
+
                 window.draw(win);
             }
 
@@ -1373,8 +1427,7 @@ int main()
             window.draw(new_game);
             window.draw(resume_game);
             window.draw(owners);
-            window.draw(leaderboard);
-            
+
         }
         if (character_flag == 1)
         {
@@ -1384,6 +1437,10 @@ int main()
             window.draw(character);
         }
 
+        if (Home_bg_flag != 0)
+        {
+            window.draw(back);
+        }
 
 
 
@@ -1393,6 +1450,6 @@ int main()
         window.display();
     }
 
-
+    //ma sha Allah
     return 0;
 }

@@ -22,7 +22,7 @@ int main()
     int playgrnd_resume_flag = 0;
 
     float hp1, hp2;
-
+    float player_1_pos, player_2_pos;
 
 
 
@@ -223,12 +223,7 @@ int main()
 
 
 
-    //home sound 
-    SoundBuffer home_tex;
-    home_tex.loadFromFile("home.mp3");
-    Sound home_sound;
-    home_sound.setBuffer(home_tex);
-    home_sound.setVolume(15.f);
+
 
 
 
@@ -507,11 +502,11 @@ int main()
                 window.close();
         }
 
+
         if (Keyboard::isKeyPressed(Keyboard::Escape))
         {
             return 0;
         }
-
 
         //----------//
         //home page//
@@ -519,7 +514,7 @@ int main()
 
         if (home_bg_Timer.getElapsedTime().asSeconds() >= 6.0f && Home_bg_flag == 0)
         {
-            home_sound.play();
+
             Home_bg_flag = 1;
             all_menu_flag = 1;
             menu_page_flag = 1;
@@ -538,11 +533,14 @@ int main()
 
             if (new_game.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
-                home_sound.stop();
+
                 menu_page_flag = 0;
                 //new_game_flag = 1;
                 character_flag = 1;
                 all_menu_flag = 0;
+                save_gameplay.setFillColor(Color::White);
+                player_1_run.setPosition(40, 195);
+                player_2_run.setPosition(700, 186);
 
             }
 
@@ -595,12 +593,16 @@ int main()
                 in >> hp1;
                 in >> hp2;
                 in >> playgrnd_resume_flag;
+                in >> player_1_pos;
+                in >> player_2_pos;
                 player_1_hp = hp1;
                 player_2_hp = hp2;
                 player_1_char_flag = playgrnd_resume_flag;
-                home_sound.stop();
+                player_1_run.setPosition(player_1_pos, 195);
+                player_2_run.setPosition(player_2_pos, 186);
                 menu_page_flag = 0;
                 all_menu_flag = 0;
+                save_gameplay.setFillColor(Color::White);
 
             }
         }
@@ -612,8 +614,9 @@ int main()
         if (Mouse::isButtonPressed(Mouse::Left) && new_game_flag == 1) {
             if (save_gameplay.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
+                save_gameplay.setFillColor(Color::Green);
                 std::ofstream out("resume.txt");
-                out << player_1_hp << "\n" << player_2_hp << "\n" << playgrnd_resume_flag << "\n";
+                out << player_1_hp << "\n" << player_2_hp << "\n" << playgrnd_resume_flag << "\n" << player_1_run.getPosition().x << "\n" << player_2_run.getPosition().x;
 
             }
         }
@@ -628,7 +631,7 @@ int main()
             if (owners.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
                 //owner_sound.play();
-                home_sound.stop();
+
                 new_game_flag = 0;
                 all_menu_flag = 0;
                 menu_page_flag = 0;
@@ -639,7 +642,7 @@ int main()
         {
             if (instruction.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
             {
-                home_sound.stop();
+
                 new_game_flag = 0;
                 all_menu_flag = 0;
                 menu_page_flag = 0;
@@ -664,7 +667,7 @@ int main()
             {
 
                 //owner_sound.stop();
-                home_sound.play();
+
                 instruction_flag = 0;
                 owners_flag = 0;
                 menu_page_flag = 1;
@@ -1266,10 +1269,7 @@ int main()
             new_game_flag = 1;
             playgrnd_resume_flag = 1;
 
-            player_1_run.setPosition(40, 195);
-            player_2_run.setPosition(700, 186);
-            /* player_1_hp = 150.f;
-             player_2_hp = 150.f;*/
+
 
         }
         else if (player_1_char_flag == 2)
@@ -1291,10 +1291,7 @@ int main()
             new_game_flag = 1;
             playgrnd_resume_flag = 2;
 
-            player_1_run.setPosition(40, 195);
-            player_2_run.setPosition(700, 186);
-            /*player_1_hp = 150.f;
-            player_2_hp = 150.f;*/
+
         }
 
 
